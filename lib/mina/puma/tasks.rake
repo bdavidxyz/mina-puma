@@ -25,8 +25,10 @@ namespace :puma do
         echo 'Puma is already running!';
       else
         if [ -e "#{fetch(:puma_config)}" ]; then
+          echo 'Starting with given config file';
           cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -d -e #{fetch(:puma_env)} -C #{fetch(:puma_config)}
         else
+          echo 'Starting without config file';
           cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -d -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}'
         fi
       fi
