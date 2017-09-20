@@ -20,6 +20,7 @@ namespace :puma do
     puma_port_option = "-p #{fetch(:puma_port)}" if set?(:puma_port)
 
     comment "Starting Puma..."
+    echo ":puma_env is #{fetch(:puma_env)}"
     command %[
       if [ -e "#{fetch(:pumactl_socket)}" ]; then
         echo 'Puma is already running!';
@@ -30,7 +31,7 @@ namespace :puma do
         else
           echo "Starting without config file and port #{puma_port_option}"
           pwd
-          cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -q -d -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}  >> log/puma.log'
+          cd #{fetch(:puma_root_path)} && #{fetch(:puma_cmd)} -v -d -e #{fetch(:puma_env)} -b "unix://#{fetch(:puma_socket)}" #{puma_port_option} -S #{fetch(:puma_state)} --pidfile #{fetch(:puma_pid)} --control 'unix://#{fetch(:pumactl_socket)}  >> log/puma.log'
         fi
       fi
     ]
