@@ -20,7 +20,7 @@ namespace :puma do
     puma_port_option = "-p #{fetch(:puma_port)}" if set?(:puma_port)
 
     comment "Starting Puma..."
-    echo ":puma_env is #{fetch(:puma_env)}"
+    comment ":puma_env is #{fetch(:puma_env)}"
     command %[
       if [ -e "#{fetch(:pumactl_socket)}" ]; then
         echo 'Puma is already running!';
